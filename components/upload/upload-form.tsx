@@ -67,11 +67,7 @@ export default function UploadForm() {
       const file = files[0];
       const validatedFields = schema.safeParse({ file });
       
-      if (validatedFields.success) {
-        const resp = await startUpload([validatedFields.data.file]);
-        if (!resp) return;
-      }
-      if(!validatedFields.success){ 
+      if (!validatedFields.success) { 
         toast({
           title: "Something went wrong",
           variant: "destructive",
@@ -87,8 +83,8 @@ export default function UploadForm() {
         description: "Getting your PDF ready for analysis...",
       });
 
-      const resp= await startUpload([file]);
-      if(!resp){
+      const resp = await startUpload([validatedFields.data.file]);
+      if (!resp) {
         toast({
           title: "Something went wrong",
           variant: "destructive",
@@ -100,10 +96,8 @@ export default function UploadForm() {
       toast({
         title: "Processing your PDF",
         description: "Hang tight! Our AI is working its magic.",
-      });  
+      });
     }
-
-    const summary= await getPdfSummary(resp); 
   };
 
   return (
